@@ -1,0 +1,362 @@
+{
+  "info": {
+    "_postman_id": "eventpro-ci-collection",
+    "name": "EVENTPRO CI API",
+    "description": "Collection d'endpoints API pour EVENTPRO CI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    },
+    {
+      "key": "event_id",
+      "value": "1"
+    },
+    {
+      "key": "user_id",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentification",
+      "item": [
+        {
+          "name": "Inscription - Organisateur",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"organizer@example.com\",\n    \"first_name\": \"Marie\",\n    \"last_name\": \"Martin\",\n    \"password\": \"Password123!\",\n    \"password_confirm\": \"Password123!\",\n    \"role\": \"organizer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ""]
+            }
+          }
+        },
+        {
+          "name": "Inscription - Participant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"participant@example.com\",\n    \"first_name\": \"Jean\",\n    \"last_name\": \"Dupont\",\n    \"password\": \"Password123!\",\n    \"password_confirm\": \"Password123!\",\n    \"role\": \"participant\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ""]
+            }
+          }
+        },
+        {
+          "name": "Connexion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"organizer@example.com\",\n    \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/token/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "token", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Événements",
+      "item": [
+        {
+          "name": "Créer un événement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Conférence Tech Africa 2024\",\n    \"description\": \"Une conférence sur les technologies africaines et l'innovation numérique\",\n    \"date_start\": \"2024-12-15T10:00:00Z\",\n    \"date_end\": \"2024-12-15T18:00:00Z\",\n    \"location\": \"Abidjan, Plateau\",\n    \"max_capacity\": 500,\n    \"status\": \"draft\",\n    \"category\": \"professional\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", ""]
+            }
+          }
+        },
+        {
+          "name": "Lister les événements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", ""]
+            }
+          }
+        },
+        {
+          "name": "Récupérer un événement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{event_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{event_id}}", ""]
+            }
+          }
+        },
+        {
+          "name": "Publier un événement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{event_id}}/publish/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{event_id}}", "publish", ""]
+            }
+          }
+        },
+        {
+          "name": "Annuler un événement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{event_id}}/cancel/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{event_id}}", "cancel", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Billets",
+      "item": [
+        {
+          "name": "Créer un type de billet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"event\": {{event_id}},\n    \"type_name\": \"standard\",\n    \"price\": \"15000.00\",\n    \"quota\": 200\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ticket-types/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "ticket-types", ""]
+            }
+          }
+        },
+        {
+          "name": "Lister les types de billets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/ticket-types/?event={{event_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "ticket-types", ""],
+              "query": [
+                {
+                  "key": "event",
+                  "value": "{{event_id}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Réservations",
+      "item": [
+        {
+          "name": "Réserver un billet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"event\": {{event_id}},\n    \"ticket_type\": 1,\n    \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/reservations/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reservations", ""]
+            }
+          }
+        },
+        {
+          "name": "Lister mes réservations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reservations/my_reservations/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reservations", "my_reservations", ""]
+            }
+          }
+        },
+        {
+          "name": "Voir les participants",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reservations/event_participants/?event_id={{event_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reservations", "event_participants", ""],
+              "query": [
+                {
+                  "key": "event_id",
+                  "value": "{{event_id}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tableau de bord",
+      "item": [
+        {
+          "name": "Stats Organisateur",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/organizer_stats/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "organizer_stats", ""]
+            }
+          }
+        },
+        {
+          "name": "Détails d'événement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/event_details/?event_id={{event_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "event_details", ""],
+              "query": [
+                {
+                  "key": "event_id",
+                  "value": "{{event_id}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
